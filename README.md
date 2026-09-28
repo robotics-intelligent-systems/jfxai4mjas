@@ -1,6 +1,6 @@
 # jfxai4mjas
 
-## AI-Powered Modular Jet & Aircraft Simulation Platform
+**AI-Powered Modular Jet & Aircraft Simulation Platform**
 
 > Open-source reference architecture and technology compendium for
 > aircraft design, Modelica-based multidomain simulation, MBSE, digital
@@ -16,6 +16,8 @@ CAD/CAM/CAS, aerodynamics, structures, propulsion, flight dynamics,
 avionics, autonomous flight, Modelica, multidisciplinary optimization
 and digital twins.
 
+**Current baseline:** documentation, three CAD concept illustrations and eight Draw.io requirements/architecture files. The workflows below are proposed integrations, not an installed simulator or operational digital twin. No root license file or executable application is present in this baseline.
+
 The goal is not to reproduce a specific commercial aircraft or
 proprietary platform. The repository instead promotes sufficiently
 abstract, reusable and interoperable models for education, simulation,
@@ -25,35 +27,36 @@ research and experimental engineering.
 
 ## Table of Contents
 
--   [Project Vision](#project-vision)
--   [Description and Context](#description-and-context)
--   [Objectives](#objectives)
--   [Reference Architecture](#reference-architecture)
--   [Engineering Domains](#engineering-domains)
--   [OpenTwin Air Digital Twin](#opentwin-air-digital-twin)
--   [Modelica and Multidomain
-    Simulation](#modelica-and-multidomain-simulation)
--   [AI and Autonomous Flight](#ai-and-autonomous-flight)
--   [Aircraft Design and MDAO](#aircraft-design-and-mdao)
--   [Open-Source Technology
-    Compendium](#open-source-technology-compendium)
--   [MBSE Engineering Process](#mbse-engineering-process)
--   [Modular Aircraft Concept](#modular-aircraft-concept)
--   [Repository Structure](#repository-structure)
--   [User Guide](#user-guide)
--   [Installation Guide](#installation-guide)
--   [Dependencies](#dependencies)
--   [Development Roadmap](#development-roadmap)
--   [How to Contribute](#how-to-contribute)
--   [Code of Conduct](#code-of-conduct)
--   [Authors and Maintainers](#authors-and-maintainers)
--   [Intellectual Property](#intellectual-property)
--   [Disclaimer](#disclaimer)
--   [License](#license)
+- [Project Vision](#project-vision)
+- [Description and Context](#description-and-context)
+- [Objectives](#objectives)
+- [Reference Architecture](#reference-architecture)
+- [Engineering Domains](#engineering-domains)
+- [OpenTwin Air Digital Twin](#opentwin-air-digital-twin)
+- [Modelica and Multidomain Simulation](#modelica-and-multidomain-simulation)
+- [AI and Autonomous Flight](#ai-and-autonomous-flight)
+- [Aircraft Design and MDAO](#aircraft-design-and-mdao)
+- [Open-Source Technology Compendium](#open-source-technology-compendium)
+- [MBSE Engineering Process](#mbse-engineering-process)
+- [Modular Aircraft Concept](#modular-aircraft-concept)
+- [CAD Concept Catalogue](#cad-concept-catalogue)
+- [Existing Repository Assets](#existing-repository-assets)
+- [Repository Structure](#repository-structure)
+- [User Guide](#user-guide)
+- [Installation Guide](#installation-guide)
+- [Dependencies](#dependencies)
+- [Development Roadmap](#development-roadmap)
+- [How to Contribute](#how-to-contribute)
+- [Code of Conduct](#code-of-conduct)
+- [Authors and Maintainers](#authors-and-maintainers)
+- [Intellectual Property](#intellectual-property)
+- [Disclaimer](#disclaimer)
+- [License](#license)
+- [Open Engineering Principles](#open-engineering-principles)
 
 ------------------------------------------------------------------------
 
-# Project Vision
+## Project Vision
 
 jfxai4mjas explores an open aviation engineering stack based on:
 
@@ -76,7 +79,7 @@ Core principles:
 
 ------------------------------------------------------------------------
 
-# Description and Context
+## Description and Context
 
 Aircraft engineering is inherently multidisciplinary. A useful virtual
 aircraft must combine aerodynamics, structures, propulsion, energy,
@@ -105,14 +108,14 @@ The repository covers research applicable to:
 
 ------------------------------------------------------------------------
 
-# Objectives
+## Objectives
 
-## Primary Objective
+### Primary Objective
 
 Develop a reusable open engineering framework for modeling, simulating,
 optimizing and evaluating modular aircraft systems.
 
-## Specific Objectives
+### Specific Objectives
 
 -   Integrate MBSE with executable aircraft models.
 -   Use Modelica for multidomain physical simulation.
@@ -129,95 +132,69 @@ optimizing and evaluating modular aircraft systems.
 
 ------------------------------------------------------------------------
 
-# Reference Architecture
+## Reference Architecture
 
-``` text
-┌──────────────────────────────────────────────────────────┐
-│                     APPLICATIONS                         │
-│ Passenger │ Cargo │ Research │ Training │ UAV │ Rescue  │
-└────────────────────────────┬─────────────────────────────┘
-                             │
-┌────────────────────────────▼─────────────────────────────┐
-│                     AI & AUTONOMY                        │
-│ Perception │ Planning │ Prediction │ Optimization       │
-└────────────────────────────┬─────────────────────────────┘
-                             │
-┌────────────────────────────▼─────────────────────────────┐
-│                  OPENTWIN AIR                            │
-│ State │ Telemetry │ Models │ Analytics │ Health Mgmt.   │
-└────────────────────────────┬─────────────────────────────┘
-                             │
-┌────────────────────────────▼─────────────────────────────┐
-│              MULTIDOMAIN SIMULATION                      │
-│ Aero │ Structures │ Propulsion │ Thermal │ Controls     │
-└────────────────────────────┬─────────────────────────────┘
-                             │
-┌────────────────────────────▼─────────────────────────────┐
-│               OPEN AIRCRAFT SERVICES                     │
-│ ROS 2 │ MAVLink │ Flight APIs │ DDS │ Data Interfaces   │
-└────────────────────────────┬─────────────────────────────┘
-                             │
-┌────────────────────────────▼─────────────────────────────┐
-│                 AIRCRAFT SYSTEMS                         │
-│ Avionics │ Sensors │ Energy │ Propulsion │ Payload      │
-└──────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    U["Mission and research scenarios"] --> G["Experiment policy and review"]
+    G --> A["AI proposals and analysis"]
+    G --> S["Deterministic simulation services"]
+    A --> R["Reviewed experiment plan"]
+    R --> S
+    S --> D["Versioned results and twin state"]
+    I["Read-only telemetry adapters"] --> D
+    D --> A
+    D --> V["Visualisation and evidence review"]
 ```
 
-------------------------------------------------------------------------
-
-# Engineering Domains
-
-  Domain            Purpose
-  ----------------- ----------------------------------------------------
-  MBSE              Requirements, architecture and traceability
-  Aerodynamics      Geometry, flow, loads and performance
-  Structures        Airframe and aeroelastic/aerostructural analysis
-  Propulsion        Turbofan, turbojet, electric and hybrid concepts
-  Energy            Fuel, battery, hydrogen and energy management
-  Thermal           Cooling and thermal-management systems
-  Flight Dynamics   Aircraft motion, stability and performance
-  Control           Flight-control laws and actuator systems
-  Avionics          Displays, data networks and onboard computing
-  Sensors           GNSS, IMU, air data, radar, vision and EO/IR
-  Autonomy          Guidance, navigation, perception and planning
-  MDAO              Multidisciplinary design analysis and optimization
-  Digital Twin      Physical/virtual synchronization and analytics
-  Mission Systems   Interchangeable application-specific payloads
+Aircraft command publication is outside this default research path. Any SIL/HIL control experiment needs a separately scoped interface and test configuration.
 
 ------------------------------------------------------------------------
 
-# OpenTwin Air Digital Twin
+## Engineering Domains
+
+| Domain | Purpose |
+| --- | --- |
+| MBSE | Requirements, architecture and traceability |
+| Aerodynamics | Geometry, flow, loads and performance |
+| Structures | Airframe and aeroelastic/aerostructural analysis |
+| Propulsion | Turbofan, turbojet, electric and hybrid concepts |
+| Energy | Fuel, battery, hydrogen and energy management |
+| Thermal | Cooling and thermal-management systems |
+| Flight Dynamics | Aircraft motion, stability and performance |
+| Control | Flight-control laws and actuator systems |
+| Avionics | Displays, data networks and onboard computing |
+| Sensors | GNSS, IMU, air data, radar, vision and EO/IR |
+| Autonomy | Guidance, navigation, perception and planning |
+| MDAO | Multidisciplinary design analysis and optimization |
+| Digital Twin | Physical/virtual synchronization and analytics |
+| Mission Systems | Interchangeable application-specific payloads |
+
+------------------------------------------------------------------------
+
+## OpenTwin Air Digital Twin
 
 **OpenTwin Air** is the project's generic digital-aircraft-twin concept.
 It is not intended to reproduce or claim ownership of a proprietary
 digital-twin product.
 
-``` text
-REAL / EXPERIMENTAL AIRCRAFT
-            │
-            ▼
- Sensors / Avionics / Flight Data
-            │
-            ▼
-     Data Acquisition
-            │
-            ▼
-     Open Integration Layer
-      │        │        │
-      ▼        ▼        ▼
-   Modelica   MDAO   AI / Analytics
-      │        │        │
-      └────────┼────────┘
-               ▼
-          Digital Twin
-               │
-     ┌─────────┼─────────┐
-     ▼         ▼         ▼
- Simulation Monitoring Optimization
-                         │
-                         ▼
-               Predictive Maintenance
+```mermaid
+flowchart TD
+    T["Recorded or approved test telemetry"] --> I["Ingestion and time alignment"]
+    I --> Q{"Schema and quality checks pass?"}
+    Q -->|No| H["Quarantine and investigate"]
+    H --> I
+    Q -->|Yes| S["Versioned state estimate"]
+    S --> M["Model comparison"]
+    S --> A["Analytics and monitoring"]
+    M --> R{"Residuals acceptable?"}
+    R -->|No| C["Review calibration and assumptions"]
+    C --> M
+    R -->|Yes| E["Evidence and scenario replay"]
+    A --> E
 ```
+
+A live twin additionally requires an identified physical asset, measured data, synchronisation and maintained calibration. Until then, use the terms virtual model or replay prototype. Health analytics are research outputs, not maintenance-release decisions.
 
 Candidate interfaces include:
 
@@ -232,28 +209,19 @@ Candidate interfaces include:
 
 ------------------------------------------------------------------------
 
-# Modelica and Multidomain Simulation
+## Modelica and Multidomain Simulation
 
 Modelica is used conceptually as the physical-modeling backbone for
 systems whose behavior spans several engineering domains.
 
-``` text
-Aircraft
-├── Aerodynamics
-├── Structures
-├── Propulsion
-│   ├── Turbine
-│   ├── Electric
-│   └── Hybrid
-├── Energy
-│   ├── Fuel
-│   ├── Battery
-│   └── Hydrogen
-├── Thermal
-├── Actuation
-├── Flight Controls
-└── Mission Systems
-```
+| Model group | Candidate subsystems |
+| --- | --- |
+| Vehicle plant | Aerodynamics, structures and flight dynamics |
+| Propulsion and energy | Turbine, electric or hybrid propulsion; fuel, battery or hydrogen storage |
+| Thermal and actuation | Cooling, actuators and associated power demand |
+| Controls and mission | Flight-control plant interfaces and payload loads |
+
+Define units, coordinate frames, time steps and exchange variables before coupling models. Not every aerodynamic or structural solver needs to run inside Modelica.
 
 Potential uses include:
 
@@ -268,28 +236,28 @@ Potential uses include:
 
 ------------------------------------------------------------------------
 
-# AI and Autonomous Flight
+## AI and Autonomous Flight
 
 AI is treated as a modular capability rather than a replacement for
 validated flight-control engineering.
 
-## Potential Research Areas
+### Potential Research Areas
 
-### Perception
+#### Perception
 
 -   computer vision;
 -   object and terrain detection;
 -   sensor fusion;
 -   landing-zone analysis.
 
-### Prediction
+#### Prediction
 
 -   trajectory estimation;
 -   component health;
 -   energy consumption;
 -   weather-aware performance.
 
-### Optimization
+#### Optimization
 
 -   aircraft configuration;
 -   mission planning;
@@ -297,7 +265,7 @@ validated flight-control engineering.
 -   energy management;
 -   surrogate modeling.
 
-### Autonomy
+#### Autonomy
 
 -   guidance and navigation;
 -   mission planning;
@@ -311,33 +279,25 @@ independent verification.
 
 ------------------------------------------------------------------------
 
-# Aircraft Design and MDAO
+## Aircraft Design and MDAO
 
 jfxai4mjas connects conceptual design with multidisciplinary analysis.
 
-``` text
-Requirements
-     │
-     ▼
-Conceptual Aircraft
-     │
-     ├───────────────┐
-     ▼               ▼
-Aerodynamics      Structures
-     │               │
-     ├───────┬───────┘
-             ▼
-         Propulsion
-             │
-             ▼
-       Flight Dynamics
-             │
-             ▼
-            MDAO
-             │
-             ▼
-      Optimized Concept
+```mermaid
+flowchart TD
+    R["Requirements and design variables"] --> G["Versioned aircraft geometry"]
+    G --> A["Aerodynamic and structural analysis"]
+    G --> P["Propulsion and energy analysis"]
+    A --> F["Coupled mission and flight analysis"]
+    P --> F
+    F --> C{"Constraints and convergence met?"}
+    C -->|No| O["Update design variables"]
+    O --> G
+    C -->|Yes| V["Independent verification and validation"]
+    V --> E["Candidate design and evidence"]
 ```
+
+An optimiser's converged solution is a candidate for review, not proof of feasibility or airworthiness.
 
 Research technologies represented in the compendium include OpenMDAO,
 OpenConcept, OpenAeroStruct, AeroSandbox, pyOptSparse, pyBADA and other
@@ -345,37 +305,37 @@ aeronautical analysis frameworks.
 
 ------------------------------------------------------------------------
 
-# Open-Source Technology Compendium
+## Open-Source Technology Compendium
 
 The technologies below are **research references** unless a particular
 module explicitly declares them as dependencies.
 
-## Conceptual Design, Aerodynamics and Optimization
+### Conceptual Design, Aerodynamics and Optimization
 
-  Technology       Research Role
-  ---------------- ----------------------------------------------
-  AeroSandbox      Aircraft modeling and optimization
-  OpenConcept      Conceptual aircraft MDAO
-  OpenAeroStruct   Aerostructural optimization
-  OpenMDAO         Multidisciplinary analysis and optimization
-  pyOptSparse      Nonlinear constrained optimization
-  pyBADA           Aircraft performance and trajectory modeling
-  scikit-aero      Aeronautical engineering calculations
-  OpenVSP          Parametric aircraft geometry
-  OpenFOAM         CFD research
+| Technology | Research Role |
+| --- | --- |
+| AeroSandbox | Aircraft modeling and optimization |
+| OpenConcept | Conceptual aircraft MDAO |
+| OpenAeroStruct | Aerostructural optimization |
+| OpenMDAO | Multidisciplinary analysis and optimization |
+| pyOptSparse | Nonlinear constrained optimization |
+| pyBADA | Aircraft performance and trajectory modeling |
+| scikit-aero | Aeronautical engineering calculations |
+| OpenVSP | Parametric aircraft geometry |
+| OpenFOAM | CFD research |
 
-## Flight Dynamics and Control
+### Flight Dynamics and Control
 
-  Technology                                Research Role
-  ----------------------------------------- ----------------------------------------
-  FMACM                                     Aircraft dynamics and control modeling
-  MScSim                                    Real-time flight-dynamics simulation
-  Aircraft Dynamics and Control libraries   Dynamic modeling
-  NextPilot                                 Flight-control research
-  PX4                                       Open flight-control ecosystem
-  ArduPilot                                 Autopilot and autonomous vehicle stack
+| Technology | Research Role |
+| --- | --- |
+| FMACM | Aircraft dynamics and control modeling |
+| MScSim | Real-time flight-dynamics simulation |
+| Aircraft Dynamics and Control libraries | Dynamic modeling |
+| NextPilot | Flight-control research |
+| PX4 | Open flight-control ecosystem |
+| ArduPilot | Autopilot and autonomous vehicle stack |
 
-## Autonomy, UAV and VTOL
+### Autonomy, UAV and VTOL
 
 Research references include:
 
@@ -387,7 +347,7 @@ Research references include:
 -   ROS 2 integration;
 -   MAVLink-based integration.
 
-## Avionics
+### Avionics
 
 The repository studies technologies and concepts including:
 
@@ -398,7 +358,7 @@ The repository studies technologies and concepts including:
 -   Micro XRCE-DDS;
 -   open telemetry and communication middleware.
 
-## Propulsion and Energy
+### Propulsion and Energy
 
 Research topics include:
 
@@ -411,7 +371,7 @@ Research topics include:
 -   solar-aircraft concepts;
 -   energy and thermal optimization.
 
-## Modelica and System Simulation
+### Modelica and System Simulation
 
 Relevant technologies include:
 
@@ -423,60 +383,49 @@ Relevant technologies include:
 -   aircraft dynamics/control libraries;
 -   co-simulation approaches.
 
-## Engineering and Visualization
+### Engineering and Visualization
 
 Potential tools include:
 
-  Layer               Candidate Technologies
-  ------------------- -----------------------------------------
-  MBSE                Capella / Arcadia
-  CAD                 FreeCAD / aircraft-oriented workbenches
-  Geometry            OpenVSP
-  Physical Modeling   Modelica / OpenModelica
-  CFD                 OpenFOAM
-  MDAO                OpenMDAO
-  Robotics            ROS 2
-  Flight Control      PX4 / ArduPilot
-  Messaging           MAVLink / DDS
-  Simulation          Gazebo and domain-specific simulators
-  AI / Data           Python ecosystem
-  Computer Vision     OpenCV
-  Visualization       Blender / Grafana / Jupyter
-  Containers          Docker
-  Orchestration       Kubernetes
+| Layer | Candidate Technologies |
+| --- | --- |
+| MBSE | Capella / Arcadia |
+| CAD | FreeCAD / aircraft-oriented workbenches |
+| Geometry | OpenVSP |
+| Physical Modeling | Modelica / OpenModelica |
+| CFD | OpenFOAM |
+| MDAO | OpenMDAO |
+| Robotics | ROS 2 |
+| Flight Control | PX4 / ArduPilot |
+| Messaging | MAVLink / DDS |
+| Simulation | Gazebo and domain-specific simulators |
+| AI / Data | Python ecosystem |
+| Computer Vision | OpenCV |
+| Visualization | Blender / Grafana / Jupyter |
+| Containers | Docker |
+| Orchestration | Kubernetes |
 
 ------------------------------------------------------------------------
 
-# MBSE Engineering Process
+## MBSE Engineering Process
 
 The repository already uses an MBSE-oriented organization. The
 recommended evolution is:
 
-``` text
-Requirements
-     │
-     ▼
-Operational Analysis
-     │
-     ▼
-System Architecture
-     │
-     ▼
-Logical Architecture
-     │
-     ▼
-Physical Architecture
-     │
-     ├───────────┬───────────┐
-     ▼           ▼           ▼
-    CAD         CAM         CAS
-     │           │           │
-     └───────────┴─────┬─────┘
-                       ▼
-                  OpenTwin Air
-                       │
-                       ▼
-                AI / Optimization
+The lifecycle is: **Stakeholder Needs → Operational Analysis → System Context → Capabilities → Architecture → Interfaces → Models → Simulation → Verification → Validation**. Maintain requirement and evidence identifiers throughout.
+
+```mermaid
+flowchart TD
+    R["Needs and operational baseline"] --> A["Architecture and interface baseline"]
+    A --> M["CAD and executable models"]
+    M --> S["Simulation cases"]
+    S --> V{"Verification criteria met?"}
+    V -->|No| M
+    V -->|Yes| L{"Valid for intended use?"}
+    L -->|No| R
+    L -->|Yes| E["Reviewed evidence baseline"]
+    E --> C["Controlled change request"]
+    C --> A
 ```
 
 **MBSE** provides requirements and architecture through approaches such
@@ -491,34 +440,18 @@ aerodynamics, propulsion, controls and autonomy.
 
 ------------------------------------------------------------------------
 
-# Modular Aircraft Concept
+## Modular Aircraft Concept
 
 The project separates common aircraft services from mission-specific
 modules.
 
-``` text
-COMMON AIRCRAFT PLATFORM
-│
-├── Airframe
-├── Flight Control
-├── Avionics
-├── Sensors
-├── Communications
-├── Energy
-├── Propulsion
-└── Open Aircraft API
-        │
-        ▼
-INTERCHANGEABLE MISSION MODULES
-│
-├── Passenger
-├── Cargo
-├── Research
-├── Sensors
-├── Training
-├── Medical / Rescue
-└── UAV / Autonomous Mission
-```
+| Common platform | Mission-specific configuration |
+| --- | --- |
+| Airframe, flight control, avionics and sensors | Passenger, cargo or training module |
+| Communications, energy and propulsion | Research, sensing or medical/rescue payload |
+| Versioned aircraft interfaces | Uncrewed mission configuration where separately validated |
+
+For each interchangeable module, define mechanical attachment, mass and centre of gravity, power, cooling, data, failure containment and configuration identification. Reassess the aircraft envelope after a module change.
 
 This architecture is conceptual. Any physical implementation must be
 supported by independent structural, aerodynamic, stability, safety and
@@ -526,11 +459,67 @@ certification analysis.
 
 ------------------------------------------------------------------------
 
-# Repository Structure
+## CAD Concept Catalogue
 
-Recommended evolution:
+The [MBSE/CAD directory](MBSE/CAD/) contains three concept boards. Mesh overlays, cutaways and simulated flow colours are illustrations, not solver results. Image labels such as “zero emissions”, “no patent lock-in” and performance claims are aspirations requiring independent evidence. No physical prototype or certified capability is established here.
 
-``` text
+### OpenTwin MAD LH₂
+
+![OpenTwin MAD LH2 aircraft exterior, propulsion cutaway and proposed simulation tools](MBSE/CAD/opentwin-mad-lh2-digital-twin-cutaway-concept.jpg)
+
+A compact personal-aircraft study combines a cabin, cryogenic liquid-hydrogen storage, fuel-cell conversion, buffer batteries, electric propulsion and flight-control electronics. The board aligns an exterior render, cutaway and virtual mesh with proposed aerodynamic, structural and flight-dynamics studies.
+
+The propulsion label states three electric motors, while the illustrated installation does not fully resolve their arrangement. Treat motor count, mounting and operating modes as open requirements; the image does not establish a tiltrotor or VTOL capability. Its zero-emissions label is not a lifecycle assessment.
+
+**Proposed studies:** mass and centre-of-gravity budgets, energy and thermal balances, cryogenic storage assumptions, aerodynamic interference and flight dynamics. Geometry consistency and subsystem interfaces must be resolved before coupled simulation.
+
+### LH₂ Seaglider and Floating Hangar
+
+![Liquid-hydrogen seaglider with floating hangar, supply-chain study and modular cutaway](MBSE/CAD/opentwin-h2-seaglider-floating-hangar-digital-twin-concept.jpg)
+
+This concept couples an electrically propelled waterborne aircraft with a modular floating hangar, solar roof, energy storage, hydrogen logistics and moorings. The board shows cockpit, airframe and energy modules alongside a proposed supply-chain twin and wave-response study.
+
+The term seaglider describes the concept; a ground-effect operating envelope, water take-off limits and any transition modes remain to be defined. Separate the aircraft model from the floating infrastructure and connect them through documented servicing and logistics interfaces.
+
+**Proposed studies:** aerodynamic and hydrodynamic behaviour, water operations, hangar buoyancy and mooring response, energy demand and hydrogen inventory. The roof illustration does not establish autonomous hydrogen production or a self-sufficient facility.
+
+### OpenTwin AirJet Modular BWB
+
+![OpenTwin AirJet blended-wing-body concept with hydrogen-electric systems and interchangeable mission modules](MBSE/CAD/uav-cargo-bwb-concept.jpg)
+
+The file is named as a UAV cargo BWB concept, while the board presents a broader blended-wing-body platform with passenger, cargo, research, surveillance, training and medical module options. It depicts hydrogen storage, fuel cells, batteries, electric propulsors, avionics and sensor interfaces.
+
+Use uncrewed cargo as an initial modelling configuration; treat occupied and other mission variants as separate configuration studies. “AirJet” is the concept title, not proof of jet propulsion: the illustration depicts propellers. Hydrogen storage phase is not specified and must not be assumed to match the LH₂ concepts above. Brand-like labels in the artwork do not establish supplier affiliation.
+
+**Proposed studies:** payload interfaces, mass distribution, aerodynamic and structural coupling, energy budgets and fault-response simulation. Proposed autopilot and middleware logos do not demonstrate working integrations.
+
+### Simulation Work Packages
+
+| Layer | Candidate tools | Required evidence |
+| --- | --- | --- |
+| Geometry and visual assets | FreeCAD, Blender, OpenVSP | Common geometry revision, dimensions, units and module definitions |
+| Energy and controls | OpenModelica | Parameter provenance, balance checks and solver settings |
+| Aerodynamics and water interaction | OpenFOAM | Mesh sensitivity, boundary conditions and reference comparisons |
+| Structures | CalculiX or another reviewed structural solver | Loads, material assumptions and mesh checks |
+| Flight dynamics | JSBSim and existing compendium candidates | Model coefficients, operating envelope and benchmark cases |
+| Interactive replay | Godot with gdext | Traceable playback of solver output; no substitution for physics validation |
+
+These are proposed tool assignments, not dependencies already installed in the repository. Resolve exact upstream versions and licences before adoption.
+
+## Existing Repository Assets
+
+| Location | Current content |
+| --- | --- |
+| [MBSE/CAD](MBSE/CAD/) | Three concept illustrations described above |
+| [MBSE/CAS](MBSE/CAS/) | Eight Draw.io requirements and architecture files |
+
+CAS files include [modular jet cargo requirements](MBSE/CAS/Modular_Jet_Cargo_High_Level_Technical_Requirements.drawio), [BWB cargo requirements](MBSE/CAS/UAV_Cargo_BWB_High_Level_Technical_Requirements.drawio), [common core fuselage](MBSE/CAS/common-core-fuselage.drawio), [ATG Javelin requirements](MBSE/CAS/ATG_Javelin_High_Level_Technical_Requirements.drawio), [cargo/naval-training fusion](MBSE/CAS/Jet_Cargo_Naval_Training_Requirements_Fusion.drawio), [naval-training requirements](MBSE/CAS/Naval_Training_High_Level_Requirements_Fusion.drawio), [BWB training adaptation](MBSE/CAS/UAV_Cargo_BWB_Naval_Training_Requirements_Adaptation.drawio) and [UAV digital twin](MBSE/CAS/uav-digital-twin.drawio). Their filenames identify reference assets, not verified traceability to the new CAD boards. Mapping requirements to each concept is an implementation task.
+
+## Repository Structure
+
+Proposed future layout; paths below are not an inventory of implemented modules. Existing assets remain under `MBSE/CAD` and `MBSE/CAS`.
+
+```text
 jfxai4mjas/
 ├── README.md
 ├── LICENSE
@@ -583,7 +572,7 @@ jfxai4mjas/
 
 ------------------------------------------------------------------------
 
-# User Guide
+## User Guide
 
 jfxai4mjas should initially be treated as an engineering and research
 compendium rather than a production flight system.
@@ -605,27 +594,19 @@ A typical workflow is:
 
 ------------------------------------------------------------------------
 
-# Installation Guide
+## Installation Guide
 
 jfxai4mjas integrates multiple independent technology families;
 therefore, there is no mandatory monolithic installation.
 
-``` bash
+```bash
 git clone https://github.com/robotics-intelligent-systems/jfxai4mjas.git
 cd jfxai4mjas
 ```
 
 A minimal conceptual research environment could contain:
 
-``` text
-MBSE              -> Capella
-Physical Modeling -> OpenModelica
-Aircraft Geometry -> OpenVSP / FreeCAD
-MDAO              -> OpenMDAO
-Flight Control    -> PX4 / ArduPilot
-Robotics          -> ROS 2
-AI / Analysis     -> Python
-```
+Use the [engineering tool matrix](#engineering-and-visualization) to select only the MBSE, geometry, physics and analysis tools needed for the first experiment.
 
 Install only the components required by the experiment being performed.
 Each executable module should eventually document tested
@@ -634,20 +615,20 @@ and tests.
 
 ------------------------------------------------------------------------
 
-# Dependencies
+## Dependencies
 
 Dependencies are classified into three groups.
 
-### Required Dependencies
+#### Required Dependencies
 
 Software that a specific executable module cannot operate without.
 
-### Optional Integrations
+#### Optional Integrations
 
 Software that provides additional analysis, visualization, simulation or
 integration functionality.
 
-### Research References
+#### Research References
 
 External repositories, models, papers and platforms used only for
 comparative research or architecture evaluation.
@@ -663,9 +644,9 @@ Every integrated third-party component should document:
 
 ------------------------------------------------------------------------
 
-# Development Roadmap
+## Development Roadmap
 
-## Phase 1 --- Compendium Refactoring
+### Phase 1 --- Compendium Refactoring
 
 -   [x] Catalog open aviation technologies.
 -   [x] Organize MBSE/CAD/CAM/CAS concepts.
@@ -674,7 +655,7 @@ Every integrated third-party component should document:
 -   [ ] Record licenses and maturity.
 -   [ ] Separate references from dependencies.
 
-## Phase 2 --- Open Aircraft Architecture
+### Phase 2 --- Open Aircraft Architecture
 
 -   [ ] Define MJAS logical architecture.
 -   [ ] Define OpenTwin Air.
@@ -682,7 +663,7 @@ Every integrated third-party component should document:
 -   [ ] Define modular mission interfaces.
 -   [ ] Define telemetry/co-simulation interfaces.
 
-## Phase 3 --- Simulation MVP
+### Phase 3 --- Simulation MVP
 
 -   [ ] Create an original simplified aircraft model.
 -   [ ] Implement Modelica subsystems.
@@ -691,7 +672,7 @@ Every integrated third-party component should document:
 -   [ ] Integrate flight dynamics.
 -   [ ] Implement telemetry and digital-twin dashboard.
 
-## Phase 4 --- Optimization and AI
+### Phase 4 --- Optimization and AI
 
 -   [ ] MDAO workflow.
 -   [ ] Surrogate-model experiments.
@@ -699,7 +680,7 @@ Every integrated third-party component should document:
 -   [ ] Energy/trajectory optimization.
 -   [ ] AI-assisted simulation analytics.
 
-## Phase 5 --- Autonomy
+### Phase 5 --- Autonomy
 
 -   [ ] PX4/ArduPilot integration experiments.
 -   [ ] ROS 2/MAVLink bridge.
@@ -707,7 +688,7 @@ Every integrated third-party component should document:
 -   [ ] Mission planning.
 -   [ ] SIL/HIL research scenarios.
 
-## Phase 6 --- Sustainable and Modular Aviation
+### Phase 6 --- Sustainable and Modular Aviation
 
 -   [ ] Electric propulsion study.
 -   [ ] Hybrid-electric study.
@@ -717,7 +698,7 @@ Every integrated third-party component should document:
 
 ------------------------------------------------------------------------
 
-# How to Contribute
+## How to Contribute
 
 Contributions are welcome in:
 
@@ -737,7 +718,7 @@ Contributions are welcome in:
 
 Suggested workflow:
 
-``` bash
+```bash
 git checkout -b feature/my-contribution
 git add .
 git commit -m "Add: description of contribution"
@@ -753,7 +734,7 @@ or third-party content without compatible redistribution rights.
 
 ------------------------------------------------------------------------
 
-# Code of Conduct
+## Code of Conduct
 
 Contributors are expected to maintain a professional, inclusive and
 collaborative environment.
@@ -763,7 +744,7 @@ root.
 
 ------------------------------------------------------------------------
 
-# Authors and Maintainers
+## Authors and Maintainers
 
 Maintained by the **Robotics Intelligent Systems** open-source
 initiative.
@@ -777,7 +758,7 @@ their respective developers and organizations.
 
 ------------------------------------------------------------------------
 
-# Intellectual Property
+## Intellectual Property
 
 The project aims to create **original, sufficiently simplified and
 abstract engineering models**.
@@ -803,7 +784,7 @@ Before incorporating external resources, verify:
 
 ------------------------------------------------------------------------
 
-# Disclaimer
+## Disclaimer
 
 jfxai4mjas is a **research, educational and experimental project**.
 
@@ -823,12 +804,11 @@ membership or institutional affiliation.
 
 ------------------------------------------------------------------------
 
-# License
+## License
 
-The applicable project license should be maintained in the repository
-root:
+No root `LICENSE` file is present in the inspected baseline. Select and publish an explicit project licence before distributing original implementation code:
 
-``` text
+```text
 LICENSE
 ```
 
@@ -837,7 +817,7 @@ own licenses.
 
 ------------------------------------------------------------------------
 
-# Open Engineering Principles
+## Open Engineering Principles
 
 **Open Standards · Open Interfaces · Open Models · Modular Architecture
 · Modelica · Digital Twins · Reproducible Simulation · Sustainable
